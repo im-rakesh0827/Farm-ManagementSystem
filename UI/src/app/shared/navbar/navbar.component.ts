@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { AuthService } from '@shared/services/auth.service'; // adjust the path as needed
-
+import { AuthService, AuthResponse } from '@shared/services/auth.service'; // ✅ Also import AuthResponse
+import { ChangeDetectorRef, NgZone } from '@angular/core';
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -12,15 +12,17 @@ import { AuthService } from '@shared/services/auth.service'; // adjust the path 
 })
 export class NavbarComponent implements OnInit {
   isMenuOpen = false;
-  isLoggedIn = false;
   showSettingsDropdown = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  // ✅ NEW: Track logged in user
+  user: AuthResponse | null = null;
+
+  constructor(private authService: AuthService, private router: Router,   private cdr: ChangeDetectorRef,  private ngZone: NgZone) {}
 
   ngOnInit(): void {
-    // Subscribe to authentication status
-    this.authService.getAuthStatus().subscribe(status => {
-      this.isLoggedIn = status;
+    // ✅ Subscribe to user state (reactive)
+    this.authService.user$.subscribe(user => {
+      this.user = user;
     });
   }
 
@@ -31,13 +33,41 @@ export class NavbarComponent implements OnInit {
   closeMenu(): void {
     this.isMenuOpen = false;
     this.showSettingsDropdown = false;
-
   }
 
   logout(): void {
-    this.isMenuOpen = false;
-    this.showSettingsDropdown = false;
-    this.authService.logout();
-    this.router.navigate(['/login']);
+  this.authService.logout();
+
+  // Navigate and trigger change detection
+  this.ngZone.run(() => {
+    this.router.navigate(['/login']).then(() => {
+      this.cdr.detectChanges(); // ✅ Triggers UI refresh
+    });
+  });
+
+  this.closeMenu();
+}
+
+
+  // ✅ Helper to check auth
+  isLoggedIn(): boolean {
+    return !!this.user;
+  }
+
+  // ✅ Helpers to check role
+  isAdmin(): boolean {
+    return this.user?.role === 'Admin';
+  }
+
+  isOperator(): boolean {
+    return this.user?.role === 'Operator';
+  }
+
+  isManager(): boolean {
+    return this.user?.role === 'Manager';
+  }
+
+  isUser(): boolean {
+    return this.user?.role === 'User';
   }
 }

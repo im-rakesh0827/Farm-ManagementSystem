@@ -13,6 +13,8 @@ import { resetPasswordGuard } from './core/guards/reset-password.guard';
 import { verifyOtpGuard } from './core/guards/verify-otp.guard';
 import { forgotPasswordGuard } from './core/guards/forgot-password.guard';
 import { ProfileComponent } from './components/profile/profile.component';
+import { CowFormComponent } from './pages/cow/cow-form/cow-form.component';
+import { CowListComponent } from './pages/cow/cow-list/cow-list.component';
 
 
 export const routes: Routes = [
@@ -27,6 +29,11 @@ export const routes: Routes = [
 { path: 'verify-otp', component: VerifyOtpComponent, canActivate: [verifyOtpGuard, unauthGuard] },
 { path: 'reset-password', component: ResetPasswordComponent, canActivate: [resetPasswordGuard, unauthGuard] },
   { path: 'setting/profile', component: ProfileComponent, canActivate: [authGuard] },
+
+  { path: 'cow-list', component: CowListComponent, canActivate: [authGuard] },
+  { path: 'cow-form', component: CowFormComponent, canActivate: [authGuard] },
+  { path: 'cow-form/:id/:mode', component: CowFormComponent, canActivate: [authGuard] },
+
 
 
   // Dashboard

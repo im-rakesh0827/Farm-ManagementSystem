@@ -161,7 +161,7 @@ public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpDto dto)
 
 
    [HttpPost("reset-password-otp")]
-public async Task<IActionResult> ResetPasswordViaOtp([FromBody] ResetPasswordDto dto)
+    public async Task<IActionResult> ResetPasswordViaOtp([FromBody] ResetPasswordDto dto)
 {
     try
     {
@@ -399,9 +399,6 @@ private async Task<bool> SendOtpEmail2(string email, string fullName, string otp
         return false;
     }
 }
-
-
-
 
     }
 }

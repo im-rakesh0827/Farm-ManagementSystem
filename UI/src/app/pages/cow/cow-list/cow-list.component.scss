@@ -1,0 +1,83 @@
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+//   margin-bottom: 1rem;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+
+.cow-page {
+  padding: 1rem;
+}
+
+.add-btn {
+  margin-bottom: 1rem;
+  padding: 8px 16px;
+  background-color: #4caf50;
+  
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.add-btn:hover {
+  background-color: #388e3c;
+}
+
+.cow-grid-wrapper {
+  height: 500px;
+  width: 100%;
+}
+
+.ag-btn {
+  padding: 4px 8px;
+  margin-right: 4px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ag-btn-edit {
+  background-color: #1976d2;
+  color: white;
+}
+
+.ag-btn-delete {
+  background-color: #d32f2f;
+  color: white;
+}
+
+
+
+
+/* Fix AG Grid filter dropdown alignment */
+.ag-theme-alpine {
+  .ag-filter-select {
+    display: flex;
+    align-items: center;
+  }
+
+  .ag-filter-body {
+    .ag-mini-filter {
+      padding-left: 24px !important; /* leave space for the search icon */
+    }
+
+    .ag-filter-filter {
+      position: relative;
+    }
+
+    .ag-mini-filter-icon {
+      position: absolute;
+      left: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      pointer-events: none;
+    }
+  }
+}

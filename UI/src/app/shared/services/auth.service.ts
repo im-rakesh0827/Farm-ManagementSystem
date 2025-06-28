@@ -29,9 +29,13 @@ export interface AuthResponse {
 @Injectable({
   providedIn: 'root'
 })
+  
 export class AuthService {
   private baseUrl = `${environment.apiBaseUrl}/auth`;
   private authStatus = new BehaviorSubject<boolean>(this.hasToken());
+
+  private userSubject = new BehaviorSubject<AuthResponse | null>(this.getUserFromStorage());
+  user$ = this.userSubject.asObservable();
   private loggedIn = false;
   private otpVerified = false;
   private isOtpSent = false;
@@ -62,6 +66,8 @@ export class AuthService {
         this.authStatus.next(true);
         this.loggedIn = true;
         this.otpVerified = false; // Reset OTP flag
+        localStorage.setItem('auth_user', JSON.stringify(response)); // ✅ NEW
+        this.userSubject.next(response);    
       }),
       catchError(this.handleError)
     );
@@ -73,10 +79,14 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('auth_user');
+  this.userSubject.next(null); // ✅ Force reset user
     this.authStatus.next(false);
     this.loggedIn = false;
     this.otpVerified = false;
+
   }
+
+  
 
   /**
    * Check if user is authenticated
@@ -95,10 +105,10 @@ export class AuthService {
   /**
    * Get current user info
    */
-  getUser(): AuthResponse | null {
-    const user = localStorage.getItem('auth_user');
-    return user ? JSON.parse(user) : null;
-  }
+  // getUser(): AuthResponse | null {
+  //   const user = localStorage.getItem('auth_user');
+  //   return user ? JSON.parse(user) : null;
+  // }
 
   /**
    * Get user role
@@ -192,6 +202,18 @@ resetOtpFlow() {
 
   getEmailFromLocalStorage(): string | null {
   return localStorage.getItem('email');
+}
+
+
+  
+  private getUserFromStorage(): AuthResponse | null {
+  const user = localStorage.getItem('auth_user');     // ✅ NEW
+  return user ? JSON.parse(user) : null;
+}
+
+
+getUser(): AuthResponse | null {
+  return this.userSubject.value;
 }
 
 

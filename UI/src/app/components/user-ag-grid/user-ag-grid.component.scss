@@ -1,19 +1,51 @@
-button {
-  margin-right: 5px;
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  h2 {
+    margin: 0;
+  }
+}
+
+
+.page {
+  padding: 1rem;
+}
+
+
+.add-btn {
+  margin-bottom: 1rem;
+  padding: 8px 16px;
+  background-color: #4caf50;
+  
+  color: #fff;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
-  background: none;
 }
 
-.btn-view {
-  color: #2d8cf0;
+.add-btn:hover {
+  background-color: #388e3c;
 }
 
-.btn-edit {
-  color: #ffc107;
+
+.ag-btn-view {
+  background-color: #007bff;
+  color: #fff;
 }
 
-.btn-delete {
-  color: #ff4d4f;
+.ag-btn-edit {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.ag-btn-delete {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.ag-btn-add {
+  margin-bottom: 10px;
+  background-color: #28a745;
+  color: white;
 }

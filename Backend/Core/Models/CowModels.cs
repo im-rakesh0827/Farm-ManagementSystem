@@ -10,6 +10,7 @@ namespace FarmSystem.Core.Models
     public int Id { get; set; }
     public string TagNumber { get; set; } = string.Empty;
     public string Breed { get; set; } = string.Empty;
+    public string HealthStatus{get; set; } = string.Empty;
     public DateTime BirthDate { get; set; }
     public bool IsMilking { get; set; }
 }

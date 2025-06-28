@@ -19,16 +19,6 @@ namespace FarmSystem.Infrastructure.Repositories
         _db = new SqlConnection(config.GetConnectionString("DefaultConnection"));
     }
 
-
-    // private readonly IConfiguration _config;
-    // private readonly string _connectionString;
-
-    // public CowRepository(IConfiguration config)
-    // {
-    //     _config = config;
-    //     _connectionString = _config.GetConnectionString("DefaultConnection")!;
-    // }
-
     public async Task<IEnumerable<Cow>> GetAllAsync() =>
         await _db.QueryAsync<Cow>("SELECT * FROM tblCows");
 
@@ -37,15 +27,15 @@ namespace FarmSystem.Infrastructure.Repositories
 
     public async Task AddAsync(Cow cow)
     {
-        string sql = @"INSERT INTO tblCows (TagNumber, Breed, BirthDate, IsMilking)
-                       VALUES (@TagNumber, @Breed, @BirthDate, @IsMilking)";
+        string sql = @"INSERT INTO tblCows (TagNumber, Breed, BirthDate, IsMilking, HealthStatus)
+                       VALUES (@TagNumber, @Breed, @BirthDate, @IsMilking, @HealthSTatus)";
         await _db.ExecuteAsync(sql, cow);
     }
 
     public async Task UpdateAsync(Cow cow)
     {
         string sql = @"UPDATE tblCows SET TagNumber=@TagNumber, Breed=@Breed, 
-                       BirthDate=@BirthDate, IsMilking=@IsMilking WHERE Id=@Id";
+                       BirthDate=@BirthDate, IsMilking=@IsMilking, HealthStatus=@HealthStatus WHERE Id=@Id";
         await _db.ExecuteAsync(sql, cow);
     }
 

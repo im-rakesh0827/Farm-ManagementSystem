@@ -1,0 +1,41 @@
+<div class="container">
+     <h2>{{ isEdit ? 'Edit' : 'Add New' }} Cow</h2>
+     <form (ngSubmit)="save()" #cowForm="ngForm">
+          <div class="form-grid">
+               <div class="form-group">
+                    <label>Tag Number:</label>
+                    <input type="text" [(ngModel)]="cow.tagNumber" name="tagNumber" required [disabled]="isView"
+                         class="form-control" />
+               </div>
+
+
+               <div class="form-group">
+                    <label>Breed:</label>
+                    <input type="text" [(ngModel)]="cow.breed" name="breed" [disabled]="isView" required />
+               </div>
+
+               <div class="form-group">
+                    <label>Birth Date:</label>
+                    <input type="date" [(ngModel)]="cow.birthDate" name="birthDate" [disabled]="isView" required />
+               </div>
+
+               <div class="form-group checkbox-group">
+                    <label>
+                         <input type="checkbox" [(ngModel)]="cow.isMilking" name="isMilking" [disabled]="isView" />
+                         Milking
+                    </label>
+               </div>
+
+               <div class="form-group">
+                    <label>Health Status:</label>
+                    <input type="text" [(ngModel)]="cow.healthStatus" name="healthStatus" [disabled]="isView" />
+               </div>
+          </div>
+
+          <div class="form-actions">
+
+               <button type="submit" [disabled]="isView" class="btn btn-primary">Save</button>
+
+          </div>
+     </form>
+</div>
