@@ -6,8 +6,10 @@ import { UserService } from '@shared/services/user.service';
 import { User } from '@shared/models/user.model';
 import { LoaderService } from '@shared/services/loader.service';
 import { Router } from '@angular/router';
+import { AlertService } from '@shared/services/alert.service';
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
-ModuleRegistry.registerModules([ AllCommunityModule ]);
+
+ModuleRegistry.registerModules([AllCommunityModule]);
 
 @Component({
   selector: 'app-user-ag-grid',
@@ -17,7 +19,7 @@ ModuleRegistry.registerModules([ AllCommunityModule ]);
   styleUrls: ['./user-ag-grid.component.scss']
 })
 export class UserAgGridComponent implements OnInit {
-  rowData: User[] = [];
+  users: User[] = [];
   columnDefs: ColDef[] = [];
   defaultColDef: ColDef = {
     resizable: true,
@@ -32,6 +34,7 @@ export class UserAgGridComponent implements OnInit {
   constructor(
     private userService: UserService,
     private loaderService: LoaderService,
+    private alertService: AlertService,
     private router: Router
   ) {}
 
@@ -47,11 +50,12 @@ export class UserAgGridComponent implements OnInit {
     this.userService.getAllUsers().subscribe({
       next: (data) => {
         setTimeout(() => {
-          this.rowData = data;
+          this.users = data;
           this.setColumnDefs();
           this.loading = false;
           this.showGrid = true;
           this.loaderService.hide();
+          // this.alertService.success('Users loaded successfully');
         }, 500);
       },
       error: () => {
@@ -59,6 +63,7 @@ export class UserAgGridComponent implements OnInit {
         this.loading = false;
         this.loaderService.hide();
         this.showGrid = false;
+        this.alertService.error('Failed to load users');
       }
     });
   }
@@ -121,13 +126,19 @@ export class UserAgGridComponent implements OnInit {
 
   onDelete(user: User): void {
     if (confirm(`Are you sure you want to delete user ${user.fullName}?`)) {
-      this.userService.deleteUser(user.id).subscribe(() => {
-        this.fetchUsers();
+      this.userService.deleteUser(user.id).subscribe({
+        next: () => {
+          this.alertService.success(`User ${user.fullName} deleted successfully`);
+          this.fetchUsers();
+        },
+        error: () => {
+          this.alertService.error(`Failed to delete user ${user.fullName}`);
+        }
       });
     }
   }
 
   addNew(): void {
-    this.router.navigate(['/user/create']);
+    this.router.navigate(['/register']);
   }
 }

@@ -5,14 +5,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CowService } from '@shared/services/cow.service';
 import { Cow } from '@app/shared/models/cow.models';
 import { LoaderService } from '@app/shared/services/loader.service';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { AlertService } from '@shared/services/alert.service';
 @Component({
   selector: 'app-cow-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatSnackBarModule],
   templateUrl: './cow-form.component.html',
   styleUrls: ['./cow-form.component.scss']
 })
+  
 export class CowFormComponent implements OnInit {
   cow: Cow = {
     id: 0,
@@ -31,7 +33,9 @@ isEdit = false;
     private route: ActivatedRoute,
     private router: Router,
     private cowService: CowService,
-    private loaderService :LoaderService
+    private loaderService: LoaderService,
+    private alertService: AlertService
+
   ) { }
   
   
@@ -69,16 +73,33 @@ isEdit = false;
 
 
   save() {
-    this.loaderService.show();
-    if (this.isEdit) {
-      this.cowService.update(this.cow).subscribe(() => {
+  this.loaderService.show();
+
+  if (this.isEdit) {
+    this.cowService.update(this.cow).subscribe({
+      next: () => {
+        this.loaderService.hide();
+        this.alertService.success('Cow updated successfully');
         this.router.navigate(['cow-list']);
-      });
-    } else {
-      this.cowService.create(this.cow).subscribe(() => {
+      },
+      error: () => {
+        this.loaderService.hide();
+        this.alertService.error('Failed to update cow');
+      }
+    });
+  } else {
+    this.cowService.create(this.cow).subscribe({
+      next: () => {
+        this.loaderService.hide();
+        this.alertService.success('Cow created successfully');
         this.router.navigate(['/cow-list']);
-      });
-    }
-    this.loaderService.hide();
+      },
+      error: () => {
+        this.loaderService.hide();
+        this.alertService.error('Failed to create cow');
+      }
+    });
   }
+}
+
 }

@@ -5,10 +5,13 @@ import { AgGridModule } from 'ag-grid-angular';
 import { ColDef } from 'ag-grid-community';
 import { CowService } from '@shared/services/cow.service';
 import { LoaderService } from '@app/shared/services/loader.service';
+import { AlertService } from '@shared/services/alert.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-cow-list',
   standalone: true,
-  imports: [CommonModule, AgGridModule],
+  imports: [CommonModule, AgGridModule, MatSnackBarModule],
   templateUrl: './cow-list.component.html',
   styleUrls: ['./cow-list.component.scss']
 })
@@ -36,13 +39,12 @@ export class CowListComponent implements OnInit {
     {
       headerName: 'Actions',
       cellRenderer: (params: any) => {
-        return `
-          <button class="ag-btn ag-btn-view" data-action="view">View</button>
-          <button class="ag-btn ag-btn-edit" data-action="edit">Edit</button>
-          <button class="ag-btn ag-btn-delete" data-action="delete">Delete</button>
-
-        `;
-      },
+  return `
+    <button class="ag-btn ag-btn-view" data-action="view">View</button>
+    <button class="ag-btn ag-btn-edit" data-action="edit">Edit</button>
+    <button class="ag-btn ag-btn-delete" data-action="delete">Delete</button>
+  `;
+},
       sortable: false,
       filter: false,
       width: 200
@@ -55,10 +57,16 @@ export class CowListComponent implements OnInit {
     filter: true
   };
 
-  constructor(private cowService: CowService, private router: Router, private loaderService : LoaderService) {}
+  constructor(
+    private cowService: CowService,
+    private router: Router,
+    private loaderService: LoaderService,
+    private alertService: AlertService
+  ) { }
 
   ngOnInit(): void {
     this.fetchCows();
+
   }
 
 
@@ -75,6 +83,8 @@ fetchCows() {
         this.loading = false;
         this.loaderService.hide();
         this.showGrid = true; 
+        // this.alertService.success('Cow loaded successfully');
+
       }, 500);
     },
     error: () => {

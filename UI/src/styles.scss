@@ -6,3 +6,77 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 // @import 'ag-grid-community/styles/ag-theme-alpine.css';
 // @import 'ag-grid-community/styles/ag-theme-quartz.css';
 
+
+
+
+
+.ag-root-wrapper {
+    &.ag-layout-normal {
+        height: 36rem;
+    }
+}
+
+
+
+
+/* Success snackbar */
+.success-snackbar {
+  background-color: #4caf50; /* Green */
+  color: #fff;
+}
+
+/* Error snackbar */
+.error-snackbar {
+  background-color: #f44336; /* Red */
+  color: #fff;
+}
+
+/* Info snackbar */
+.info-snackbar {
+  background-color: #2196f3; /* Blue */
+  color: #fff;
+}
+
+/* Warning snackbar */
+.warning-snackbar {
+  background-color: #ff9800; /* Orange */
+  color: #fff;
+}
+
+
+
+
+.ag-btn {
+  margin-right: 5px;
+  padding: 4px 10px;
+  font-size: 13px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ag-btn-view {
+  background-color: #2196f3;
+  color: white;
+}
+
+.ag-btn-edit {
+  background-color: #4caf50;
+  color: white;
+}
+
+.ag-btn-delete {
+  background-color: #f44336;
+  color: white;
+}
+
+
+.ag-header{
+     background-color: rgb(217, 219, 222) !important;
+     font-style: bold;
+}
+
+.ag-header-cell-text {
+    word-break: break-word;
+    font-weight: bold !important;
+}

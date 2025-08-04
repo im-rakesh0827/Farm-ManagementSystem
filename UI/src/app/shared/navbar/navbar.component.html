@@ -11,13 +11,12 @@
           <li><a routerLink="/dashboard" routerLinkActive="active" (click)="closeMenu()">Home</a></li>
           <li><a routerLink="/cow-list" routerLinkActive="active" (click)="closeMenu()">Cows</a></li>
           <li><a routerLink="/milk" routerLinkActive="active" (click)="closeMenu()">Milk</a></li>
-          <li><a routerLink="/sales" routerLinkActive="active" (click)="closeMenu()">Sales</a></li>
-          <li><a routerLink="/inventory" routerLinkActive="active" (click)="closeMenu()">Inventory</a></li>
+          <li hidden><a routerLink="/sales" routerLinkActive="active" (click)="closeMenu()">Sales</a></li>
+          <li hidden><a routerLink="/inventory" routerLinkActive="active" (click)="closeMenu()">Inventory</a></li>
           <li><a routerLink="/employees" routerLinkActive="active" (click)="closeMenu()">Employees</a></li>
-          <li><a routerLink="/users" routerLinkActive="active" (click)="closeMenu()" hidden>Users Grid</a></li>
+          <li hidden><a routerLink="/users" routerLinkActive="active" (click)="closeMenu()">Users Grid</a></li>
           <li><a routerLink="/users-grid" routerLinkActive="active" (click)="closeMenu()">Users</a></li>
-
-          <li><a *ngIf="isAdmin()" routerLink="/reports" routerLinkActive="active" (click)="closeMenu()">Reports</a>
+          <li *ngIf="isAdmin()"><a routerLink="/reports" routerLinkActive="active" (click)="closeMenu()">Reports</a>
           </li>
 
           <!-- Settings Dropdown -->
